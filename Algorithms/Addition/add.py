@@ -7,7 +7,8 @@ Output: A string of the sum of the inputs
 '''
 def add(x, y):
     carry = 0
-    #Convert x and y from integers to '0' padded strings
+    #Convert x and y from integers to '0' padded arrays of integers
+    #Example: 1 + 123 becomes [0, 0, 1] + [1, 2, 3]
     n = max(len(str(x)), len(str(y)))
     x = map(int, "%0*d" % (n, x))
     y = map(int, "%0*d" % (n, y))
