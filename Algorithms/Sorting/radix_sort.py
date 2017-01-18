@@ -39,26 +39,34 @@ def MSD_radix_sort(arr, aux, lo, hi, d):
 
     count = [0] * (r + 2)
     #Count number of each item
-    for i in range(lo, hi):
-        if d < len(arr[i]):
-            count[ord(arr[i][d])+1] += 1
+    for i in range(lo, hi + 1):
+        if i < len(arr):
+            if d < len(arr[i]):
+                count[ord(arr[i][d])+2] += 1
+            else:
+                count[1] += 1
 
     #Turn counts into indices
     for i in range(1, r + 1):
         count[i] += count[i - 1]
 
     #Use indices to insert into aux
-    for i in range(lo, hi):
-        if d < len(arr[i]):
-            aux[count[ord(arr[i][d])]] = arr[i]
-            count[ord(arr[i][d])] += 1
+    for i in range(lo, hi + 1):
+        if i < len(arr):
+            if d < len(arr[i]):
+                aux[count[ord(arr[i][d]) + 1]] = arr[i]
+                count[ord(arr[i][d]) + 1] += 1
+            else:
+                aux[count[0]] = arr[i]
+                count[0] += 1
 
     #Copy from aux to original
-    for i in range(lo, hi):
-        arr[i] = aux[i]
+    for i in range(lo, hi + 1):
+        if i < len(arr):
+            arr[i] = aux[i - lo]
 
     for i in range(r):
-        MSD_radix_sort(arr, aux, lo + count[r], lo + count[r + 1] - 1, d + 1)
+        MSD_radix_sort(arr, aux, lo + count[i], lo + count[i + 1] - 1, d + 1)
 
 def MSD(arr):
     aux = [0] * len(arr)
@@ -68,7 +76,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         arr = []
         for x in range(100):
-            arr.append(''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)))
+            arr.append(''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(int(random.random() * 100) + 1)))
         MSD(arr)
         for i in arr:
             print i
