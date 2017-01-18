@@ -12,7 +12,7 @@ def LSD_radix_sort(arr):
     n = len(arr)
     aux = [0] * n
 
-    for letter in range(len(arr[0]) - 1, -1, -1):
+    for letter in range(length - 1, -1, -1):
         count = [0] * r
         #Count number of each item
         for i in range(n):
