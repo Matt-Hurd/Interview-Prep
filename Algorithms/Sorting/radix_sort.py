@@ -30,7 +30,8 @@ def LSD_radix_sort(arr):
         #Copy from aux to original
         for i in range(n):
             arr[i] = aux[i]
-
+            # print arr[i]
+        # print ""
 
 def MSD_radix_sort(arr, aux, lo, hi, d):
     if hi <= lo:
@@ -72,11 +73,59 @@ def MSD(arr):
     aux = [0] * len(arr)
     MSD_radix_sort(arr, aux, 0, len(arr), 0)
 
+
+def three_way_sort(arr, lo, hi, d):
+    if hi <= lo:
+        return
+    lt = lo
+    gt = hi
+    if d >= len(arr[0]):
+        v = -1
+    else:
+        v = arr[lo][d]
+    i = lo + 1
+
+    while i < gt:
+        if d >= len(arr[0]):
+            t = -1
+        else:
+            t = arr[i][d]
+        if t < v:
+            arr[lt], arr[i] = arr[i], arr[lt]
+            lt += 1
+            i += 1
+        elif t > v:
+            arr[i], arr[gt] = arr[gt], arr[i]
+            gt -= 1
+        else:
+            i += 1
+    three_way_sort(arr, lo, lt - 1, d)
+    if v >= 0:
+        three_way_sort(arr, lt, gt, d + 1)
+    three_way_sort(arr, gt + 1, hi, d)
+
+def three_way(arr):
+    three_way_sort(arr, 0, len(arr) - 1, 0)
+
+# if __name__ == "__main__":
+#     if len(sys.argv) < 2:
+#         arr = []
+#         for x in range(10000):
+#             arr.append(''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(64)))
+#         three_way(arr)
+#         for i in arr:
+#             print i
+#     else:
+#         arr = sys.argv[1::]
+#         three_way(arr)
+#         for s in arr:
+#             print s
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         arr = []
-        for x in range(100):
-            arr.append(''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(int(random.random() * 100) + 1)))
+        for x in range(10000):
+            arr.append(''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(64)))
         MSD(arr)
         for i in arr:
             print i
@@ -84,13 +133,15 @@ if __name__ == "__main__":
         arr = sys.argv[1::]
         MSD(arr)
         for s in arr:
-            print s
+           print s
 
 # if __name__ == "__main__":
 #     if len(sys.argv) < 2:
 #         arr = []
-#         for x in range(100):
-#             arr.append(''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(100)))
+#         for x in range(10000):
+#             arr.append(''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(64)))
+#             # print arr[x]
+#         # print ""
 #         LSD_radix_sort(arr)
 #         for i in arr:
 #             print i
